@@ -1,0 +1,1 @@
+LIST_SIZE = 100     # Num. of Blocks on the screen

@@ -2,6 +2,7 @@ import sys
 import pygame
 import random
 import math
+from config import LIST_SIZE
 
 pygame.init()
 
@@ -11,7 +12,9 @@ class DrawInformation:
   BLUE = (0, 0, 255)
   GREEN = (0, 255, 0)
   RED = (255, 0, 0)
-  BACKGROUND_COLOR = WHITE
+  BACKGROUND_COLOR = BLACK
+  YELLOW = (255, 191, 0)
+  BRASS = (225, 193, 110)
 
   GREYS = [
     (128, 128, 128),
@@ -38,7 +41,7 @@ class DrawInformation:
     self.min_val = min(lst)
     self.max_val = max(lst)
 
-    self.block_width = round((self.width - self.SIDE_PAD) / len(lst))
+    self.block_width = round((self.width - self.SIDE_PAD) // len(lst))
     self.block_height = math.floor((self.height - self.TOP_PAD) / (self.max_val - self.min_val))
     self.start_x = self.SIDE_PAD // 2
     
@@ -55,15 +58,13 @@ def generate_starting_list(n, min_val, max_val):
 def draw(draw_info, algo_name, ascending):
   draw_info.window.fill(draw_info.BACKGROUND_COLOR)
 
-
-
-  title = draw_info.LARGE_FONT.render(f"{algo_name} - {'Ascending' if ascending else 'Descending'}", 1, draw_info.BLUE)
+  title = draw_info.LARGE_FONT.render(f"{algo_name} - {'Ascending' if ascending else 'Descending'}", 1, draw_info.YELLOW)
   draw_info.window.blit(title, (draw_info.width / 2 - title.get_width() / 2, 10))
   
-  controls = draw_info.FONT.render("R - Reset | SPACE - Start Sort | A - Ascending | D - Descending", 1, draw_info.BLACK)
+  controls = draw_info.FONT.render("R - Reset | SPACE - Start Sort | A - Ascending | D - Descending", 1, draw_info.BRASS)
   draw_info.window.blit(controls, (draw_info.width / 2 - controls.get_width() / 2, 55))
   
-  sorting = draw_info.FONT.render('I - Insertion Sort | B - Bubble Sort', 1, draw_info.BLACK)
+  sorting = draw_info.FONT.render('I - Insertion Sort | B - Bubble Sort', 1, draw_info.BRASS)
   draw_info.window.blit(sorting, (draw_info.width / 2 - sorting.get_width() / 2, 85))
 
 
@@ -133,9 +134,9 @@ def insertion_sort(draw_info, ascending=True):
 def main():
   clock = pygame.time.Clock()
 
-  n = 100
-  min_val = 10
-  max_val = 100
+  n = LIST_SIZE
+  min_val = 0
+  max_val = n
 
   lst = generate_starting_list(n, min_val, max_val)
 
@@ -150,7 +151,7 @@ def main():
 
 
   while (True):
-    clock.tick(120)
+    clock.tick(60)
 
     if sorting:
       try:
